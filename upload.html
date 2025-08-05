@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload de Fotos - Escola de Vôlei</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <h2>Enviar Foto para a Galeria</h2>
+  <form id="upload-form" enctype="multipart/form-data">
+    <input type="file" name="foto" accept="image/*" required />
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('upload-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch('/upload-foto', {
+          method: 'POST',
+          body: formData
+        });
+        if(res.ok) {
+          alert('Foto enviada com sucesso!');
+          form.reset();
+        } else {
+          alert('Erro ao enviar foto.');
+        }
+      } catch {
+        alert('Erro na comunicação com o servidor.');
+      }
+    });
+  </script>
+</body>
+</html>

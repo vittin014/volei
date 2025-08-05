@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    
+  <meta charset="UTF-8" />
+  <title>Cadastro - Escola de Vôlei</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/styles-cadastro.css" />
+
+  <style>
+    /* styles-cadastro.css */
+
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+form#cadastro-form {
+  background: rgba(32, 58, 67, 0.85);
+  padding: 40px 50px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(44, 83, 100, 0.8);
+  width: 400px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+form#cadastro-form::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg, #00fff7, #00d2ff, #0085ff, #00fff7);
+  animation: rotateBG 8s linear infinite;
+  filter: blur(50px);
+  z-index: 0;
+  border-radius: 50%;
+}
+
+@keyframes rotateBG {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+form#cadastro-form * {
+  position: relative;
+  z-index: 1;
+}
+
+form#cadastro-form h2 {
+  margin-bottom: 25px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #00d2ff;
+  text-shadow: 0 0 8px #00d2ff;
+}
+
+form#cadastro-form label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: 600;
+  text-align: left;
+  color: #b0eafd;
+}
+
+form#cadastro-form input[type="text"],
+form#cadastro-form input[type="email"],
+form#cadastro-form input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 10px;
+  background: #203a43;
+  color: #c0eefd;
+  font-size: 1rem;
+  box-shadow: inset 0 0 8px #007acc;
+  transition: box-shadow 0.3s ease;
+}
+
+form#cadastro-form input[type="text"]:focus,
+form#cadastro-form input[type="email"]:focus,
+form#cadastro-form input[type="password"]:focus {
+  outline: none;
+  box-shadow: 0 0 12px #00d2ff;
+  background: #294a56;
+  color: #e0f7ff;
+}
+
+form#cadastro-form button {
+  margin-top: 25px;
+  width: 100%;
+  padding: 15px 0;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(90deg, #00d2ff, #0085ff);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00d2ff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+form#cadastro-form button:hover {
+  background: linear-gradient(90deg, #0085ff, #00d2ff);
+  box-shadow: 0 0 25px #00ffff;
+}
+
+form#cadastro-form p {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #9bd8ff;
+}
+
+form#cadastro-form p a {
+  color: #00d2ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+form#cadastro-form p a:hover {
+  color: #00fff7;
+  text-shadow: 0 0 5px #00fff7;
+}
+
+  </style>
+</head>
+<body>
+  <h2>Cadastro de Aluno</h2>
+  <form id="cadastro-form">
+    <label>Nome:</label>
+    <input type="text" name="nome" required />
+    <label>Email:</label>
+    <input type="email" name="email" required />
+    <label>Senha:</label>
+    <input type="password" name="senha" required />
+    <label>Telefone:</label>
+    <input type="text" name="telefone" />
+    <button type="submit">Cadastrar</button>
+  </form>
+  <p>Já tem conta? <a href="/login.html">Faça login</a></p>
+
+  <script>
+    const form = document.getElementById('cadastro-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const obj = Object.fromEntries(data.entries());
+
+      try {
+        const res = await fetch('/cadastro', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(obj)
+        });
+        if(res.ok) {
+          alert('Cadastro realizado com sucesso!');
+          window.location.href = '/login.html';
+        } else {
+          alert('Erro no cadastro, tente novamente');
+        }
+      } catch {
+        alert('Erro ao tentar cadastrar');
+      }
+    });
+  </script>
+</body>
+</html>
